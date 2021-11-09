@@ -1,87 +1,94 @@
 (function ($, window, document, undefined) {
-  $.fn.audioPlayerUtils = function () {
+  $.fn.audioPlayerUtils = function (options) {
     var base = $(this);
-    var isPlaying = false;
-    var audioPlayer, onPlayHead, playerId, timeline, playHead, timelineWidth;
 
     base.init = function () {
       base.audioContainer();
-      base.playController();
-      base.muteController();
-      base.headBall();
     };
 
     base.audioContainer = function () {
-      base.divAudioPlayer = $("<div></div>").appendTo("body");
-      base.divAudioPlayer.prop("class", "audioPlayer");
+      audioPlayer = $("<div></div>").appendTo("body");
+      audioPlayer.prop("class", "audioPlayer");
 
-      base.aPlayBtn = $("<a></a>").appendTo(base.divAudioPlayer);
-      base.aPlayBtn.prop("id", "playBtn");
+      playBtn = $("<a></a>").appendTo(audioPlayer);
+      playBtn.prop("id", "playBtn");
 
-      base.iPlay = $("<i></i>").appendTo(base.aPlayBtn);
-      base.iPlay.prop("class", "fa fa-play playing");
+      play = $("<i></i>").appendTo(playBtn);
+      play.prop("class", "fa fa-play playing");
       $(".playing").css({ "aria-hidden": "true", color: "#fff" });
 
-      base.iPause = $("<i></i>").appendTo(base.aPlayBtn);
-      base.iPause.prop("class", "fa fa-pause pausing");
+      pause = $("<i></i>").appendTo(playBtn);
+      pause.prop("class", "fa fa-pause pausing");
       $(".pausing").css({
         "aria-hidden": "true",
         color: "#fff",
         display: "none",
       });
 
-      base.divStartTime = $("<div></div>").appendTo(base.divAudioPlayer);
-      base.divStartTime.prop("class", "startTime");
-      base.divStartTime.html("00:00");
+      startTime = $("<div></div>").appendTo(audioPlayer);
+      startTime.prop("class", "startTime");
+      startTime.html("00:00");
 
-      base.divMainBar = $("<div></div>").appendTo(base.divAudioPlayer);
-      base.divMainBar.prop("id", "mainBar");
+      mainBar = $("<div></div>").appendTo(audioPlayer);
+      mainBar.prop("id", "mainBar");
 
-      base.divProgressBar__timeline = $("<div></div>").appendTo(
-        base.divMainBar
-      );
-      base.divProgressBar__timeline.prop("id", "progressBar__timeline");
+      progressBar__timeline = $("<div></div>").appendTo(mainBar);
+      progressBar__timeline.prop("id", "progressBar__timeline");
       $("#progressBar__timeline").append("<div id='play-head'></div>");
 
-      base.divEndTime = $("<div></div>").appendTo(base.divAudioPlayer);
-      base.divEndTime.prop("class", "endTime");
-      base.divEndTime.html("00:00");
+      endTime = $("<div></div>").appendTo(audioPlayer);
+      endTime.prop("class", "endTime");
+      endTime.html("00:00");
 
-      base.aVolumeBtn = $("<a></a>").appendTo(base.divAudioPlayer);
-      base.aVolumeBtn.prop("id", "volumeBtn");
+      volumeBtn = $("<a></a>").appendTo(audioPlayer);
+      volumeBtn.prop("id", "volumeBtn");
 
-      base.iMute = $("<i></i>").appendTo(base.aVolumeBtn);
-      base.iMute.prop("class", "fa fa-volume-up volume");
+      mute = $("<i></i>").appendTo(volumeBtn);
+      mute.prop("class", "fa fa-volume-up volume");
       $(".volume").css({ "aria-hidden": "true", color: "#4050ab" });
 
-      base.iUnmute = $("<i></i>").appendTo(base.aVolumeBtn);
-      base.iUnmute.prop("class", "fa fa-volume-off muting");
+      unmute = $("<i></i>").appendTo(volumeBtn);
+      unmute.prop("class", "fa fa-volume-off muting");
       $(".muting").css({
         "aria-hidden": "true",
         color: "#fd4f1a",
         display: "none",
       });
     };
+    base.init();
 
-    base.playController = function () {
+    var isPlaying = false;
+    var audioPlayer, onPlayHead, playerId, timeline, playHead, timelineWidth;
+
+    $(document).ready(function () {
+      playController();
+      muteController();
+      headBall();
+    });
+
+    // Play Controller
+    function playController() {
       audioPlayer = document.getElementById("audioSource");
       audioPlayer.addEventListener("timeupdate", calculateTime);
       $("#playBtn").bind("click", function (event) {
         if (isPlaying) {
+          console.log(" pas play");
           $(".playing").show();
           $("#audioSource")[0].pause();
           $(".pausing").hide();
         } else {
-          $("#aUdioSource")[0].play();
+          $("#audioSource")[0].play();
+          console.log(" play");
           $(".playing").hide();
           $(".pausing").show();
         }
 
         isPlaying = !isPlaying;
       });
-    };
+    }
 
-    base.muteController = function () {
+    // Mute Controller
+    function muteController() {
       $("#volumeBtn").bind("click", function (event) {
         if ($("#audioSource")[0].muted) {
           $(".volume").show();
@@ -93,9 +100,10 @@
 
         $("#audioSource")[0].muted = !$("#audioSource")[0].muted;
       });
-    };
+    }
 
-    base.calculateTime = function () {
+    // Calculate the time
+    function calculateTime() {
       var width = $("#progressBar__timeline").width();
       var length = audioPlayer.duration;
       var current_time = audioPlayer.currentTime;
@@ -109,9 +117,9 @@
       var progressbar = document.getElementById("play-head");
       progressbar.style.marginLeft =
         width * (audioPlayer.currentTime / audioPlayer.duration) + "px";
-    };
+    }
 
-    base.calculateTotalValue = function (length) {
+    function calculateTotalValue(length) {
       var minutes = Math.floor(length / 60);
       var seconds_int = length - minutes * 60;
       if (seconds_int < 10) {
@@ -122,9 +130,9 @@
       var time = minutes + ":" + seconds;
 
       return time;
-    };
+    }
 
-    base.calculateCurrentValue = function (currentTime) {
+    function calculateCurrentValue(currentTime) {
       var current_hour = parseInt(currentTime / 3600) % 24,
         current_minute = parseInt(currentTime / 60) % 60,
         current_seconds_long = currentTime % 60,
@@ -135,44 +143,45 @@
           (current_seconds < 10 ? "0" + current_seconds : current_seconds);
 
       return current_time;
-    };
+    }
 
-    base.headBall = function () {
+    // Progress Bar - playhead
+    function headBall() {
       onPlayHead = null;
       playerId = null;
-      timeline = document.getElementById("progressBar__timelne");
+      timeline = document.getElementById("progressBar__timeline");
       playHead = document.getElementById("play-head");
       timelineWidth = timeline.offsetWidth - playHead.offsetWidth;
 
       timeline.addEventListener("click", seek);
       playHead.addEventListener("mousedown", drag);
       document.addEventListener("mouseup", mouseUp);
-    };
+    }
 
-    base.seek = function (event) {
+    function seek(event) {
       var player = document.getElementById("audioSource");
       player.currentTime =
         player.duration * clickPercent(event, timeline, timelineWidth);
-    };
+    }
 
-    base.clickPercent = function (event, timeline, timelineWidth) {
+    function clickPercent(event, timeline, timelineWidth) {
       return (event.clientX - getPosition(timeline)) / timelineWidth;
-    };
+    }
 
-    base.getPosition = function (el) {
+    function getPosition(el) {
       return el.getBoundingClientRect().left;
-    };
+    }
 
-    base.drag = function (e) {
+    function drag(e) {
       audioPlayer.removeEventListener("timeupdate", calculateTime);
       onPlayHead = $(this).attr("id");
       playerId = $(this).find("audio").attr("id");
       var player = document.getElementById(playerId);
-      window.addEventListener("mousemover", dragMovement);
+      window.addEventListener("mousemove", dragFunc);
       player.removeEventListener("timeupdate", timeUpdate);
-    };
+    }
 
-    base.dragMovement = function (e) {
+    function dragFunc(e) {
       var player = document.getElementById(onPlayHead);
       var newMargLeft = e.clientX - getPosition(timeline);
 
@@ -185,22 +194,21 @@
       if (newMargLeft > timelineWidth) {
         playHead.style.marginLeft = timelineWidth + "px";
       }
-    };
+    }
 
-    base.mouseUp = function (e) {
+    function mouseUp(e) {
       if (onPlayHead != null) {
         var player = document.getElementById(playerId);
         window.removeEventListener("mousemove", dragFunc);
         player.currentTime =
-          player.dration * clickPercent(e, timeline, timelineWidth);
+          player.duration * clickPercent(e, timeline, timelineWidth);
         audioPlayer.addEventListener("timeupdate", calculateTime);
         player.addEventListener("timeupdate", timeUpdate);
       }
-
       onPlayHead = null;
-    };
+    }
 
-    base.timUpdate = function () {
+    function timeUpdate() {
       var audioSource = document.getElementById(onPlayHead);
       var player = document.getElementById(playerId);
       var playPercent = timelineWidth * (player.currentTime / player.duration);
@@ -209,10 +217,8 @@
       if (player.currentTime == player.duration) {
         player.pause();
       }
-    };
-
-    base.init();
+    }
   };
-})(jQuery);
+})(jQuery, window, document);
 
 //$("body").pluginName();
