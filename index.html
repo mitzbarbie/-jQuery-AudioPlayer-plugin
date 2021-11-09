@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <script src="main.js"></script>
+    <script src="audioPlayer.js"></script>
+  </head>
+  <body>
+    <audio id="audioSource">
+      <source src="audio/North Oakland Extasy - Squadda B.mp3" />
+    </audio>
+
+    <div class="audioPlayer" style="margin: 50px">
+      <!-- Play & Pause -->
+      <a id="playBtn">
+        <i
+          class="fa fa-play playing"
+          aria-hidden="true"
+          style="color: #fff"
+        ></i>
+        <i
+          class="fa fa-pause pausing"
+          aria-hidden="true"
+          style="display: none; color: #fff"
+        ></i>
+      </a>
+
+      <!-- Start Time -->
+      <div class="startTime">00:00</div>
+
+      <!-- Progress bar -->
+      <div id="mainBar">
+        <div id="progressBar__timeline">
+          <div id="play-head"></div>
+        </div>
+      </div>
+
+      <!-- End Time -->
+      <div class="endTime">00:00</div>
+
+      <!-- Mute & Unmute -->
+      <a id="volumeBtn">
+        <i
+          class="fa fa-volume-up volume"
+          style="color: #4050ab"
+          aria-hidden="true"
+        ></i>
+        <i
+          class="fa fa-volume-off muting"
+          aria-hidden="true"
+          style="display: none; color: #fd4f1a; margin-right: 8px"
+        ></i>
+      </a>
+    </div>
+  </body>
+</html>

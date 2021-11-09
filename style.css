@@ -1,0 +1,90 @@
+.audioPlayer {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  width: 550px;
+  align-items: center;
+  border: 1px solid #dde2e6;
+  border-radius: 4px;
+  background: #fff;
+}
+
+#playBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 55px;
+  border-radius: 4px 0 0 4px;
+  background: #4050ab;
+  cursor: pointer;
+}
+
+/*
+.pauseBtn {
+  display: none;
+  background-color: #fff;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 55px;
+  border-radius: 4px 0 0 4px;
+  cursor: pointer;
+  border: 2px solid #4050ab;
+}
+*/
+
+.startTime {
+  display: flex;
+  margin-left: 14px;
+  width: 40px;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #4050ab;
+}
+
+#mainBar {
+  background: #dde2e6;
+  width: 100%;
+  height: 4px;
+  margin: 15px 15px;
+  flex-basis: 0;
+  flex-grow: 1;
+  position: relative;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+#progressBar__timeline {
+  background: #4050ab;
+  height: 4px;
+  width: 100%;
+  cursor: pointer;
+}
+
+#play-head {
+  display: flex;
+  position: absolute;
+  box-sizing: border-box;
+  top: -5px;
+  left: -5px;
+  width: 15px;
+  height: 15px;
+  background: #fff;
+  border: 2px solid #4050ab;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.endTime {
+  margin-right: 15px;
+  font-weight: 500;
+  font-size: 13px;
+  color: #999;
+}
+
+#volumeBtn {
+  margin-right: 15px;
+  cursor: pointer;
+}
