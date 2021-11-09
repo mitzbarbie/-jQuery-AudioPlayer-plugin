@@ -1,4 +1,4 @@
-(function ($) {
+(function ($, window, document, undefined) {
   $.fn.audioPlayerUtils = function () {
     var base = $(this);
     var isPlaying = false;
@@ -13,19 +13,25 @@
 
     base.audioContainer = function () {
       base.divAudioPlayer = $("<div></div>").appendTo("body");
-      base.divAudioPlayer.prop("id", "audioPlayer");
+      base.divAudioPlayer.prop("class", "audioPlayer");
 
       base.aPlayBtn = $("<a></a>").appendTo(base.divAudioPlayer);
       base.aPlayBtn.prop("id", "playBtn");
 
       base.iPlay = $("<i></i>").appendTo(base.aPlayBtn);
       base.iPlay.prop("class", "fa fa-play playing");
+      $(".playing").css({ "aria-hidden": "true", color: "#fff" });
 
       base.iPause = $("<i></i>").appendTo(base.aPlayBtn);
       base.iPause.prop("class", "fa fa-pause pausing");
+      $(".pausing").css({
+        "aria-hidden": "true",
+        color: "#fff",
+        display: "none",
+      });
 
       base.divStartTime = $("<div></div>").appendTo(base.divAudioPlayer);
-      base.divStartTime.prop("id", "startTime");
+      base.divStartTime.prop("class", "startTime");
       base.divStartTime.html("00:00");
 
       base.divMainBar = $("<div></div>").appendTo(base.divAudioPlayer);
@@ -46,9 +52,15 @@
 
       base.iMute = $("<i></i>").appendTo(base.aVolumeBtn);
       base.iMute.prop("class", "fa fa-volume-up volume");
+      $(".volume").css({ "aria-hidden": "true", color: "#4050ab" });
 
       base.iUnmute = $("<i></i>").appendTo(base.aVolumeBtn);
       base.iUnmute.prop("class", "fa fa-volume-off muting");
+      $(".muting").css({
+        "aria-hidden": "true",
+        color: "#fd4f1a",
+        display: "none",
+      });
     };
 
     base.playController = function () {
