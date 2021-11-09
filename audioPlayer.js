@@ -21,7 +21,7 @@
       pause.prop("class", "fa fa-pause pausing");
       $(".pausing").css({
         "aria-hidden": "true",
-        color: "#fff",
+        color: "#4050ab",
         display: "none",
       });
 
@@ -45,7 +45,10 @@
 
       mute = $("<i></i>").appendTo(volumeBtn);
       mute.prop("class", "fa fa-volume-up volume");
-      $(".volume").css({ "aria-hidden": "true", color: "#4050ab" });
+      $(".volume").css({
+        "aria-hidden": "true",
+        color: "#4050ab",
+      });
 
       unmute = $("<i></i>").appendTo(volumeBtn);
       unmute.prop("class", "fa fa-volume-off muting");
@@ -220,5 +223,3 @@
     }
   };
 })(jQuery, window, document);
-
-//$("body").pluginName();

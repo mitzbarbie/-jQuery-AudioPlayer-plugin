@@ -21,9 +21,8 @@
   cursor: pointer;
 }
 
-/*
-.pauseBtn {
-  display: none;
+.pausing {
+  vertical-align: center;
   background-color: #fff;
   justify-content: center;
   align-items: center;
@@ -33,7 +32,13 @@
   cursor: pointer;
   border: 2px solid #4050ab;
 }
-*/
+
+.pausing::before {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 18px;
+}
 
 .startTime {
   display: flex;
@@ -88,4 +93,8 @@
 #volumeBtn {
   margin-right: 15px;
   cursor: pointer;
+}
+
+.muting::before {
+  margin-left: 8px;
 }
