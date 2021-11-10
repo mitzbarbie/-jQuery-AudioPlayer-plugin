@@ -6,6 +6,7 @@
       base.audioContainer();
     };
 
+    // HTML init
     base.audioContainer = function () {
       audioPlayer = $("<div></div>").appendTo("body");
       audioPlayer.prop("class", "audioPlayer");
@@ -69,7 +70,7 @@
       headBall();
     });
 
-    // Play Controller
+    // Play & Pause Controller
     function playController() {
       audioPlayer = document.getElementById("audioSource");
       audioPlayer.addEventListener("timeupdate", calculateTime);
@@ -90,7 +91,7 @@
       });
     }
 
-    // Mute Controller
+    // Mute & Unmute Controller
     function muteController() {
       $("#volumeBtn").bind("click", function (event) {
         if ($("#audioSource")[0].muted) {
@@ -155,7 +156,7 @@
       return current_time;
     }
 
-    // Progress Bar - playhead
+    // Progress-bar - playhead
     function headBall() {
       onPlayHead = null;
       playerId = null;
@@ -212,7 +213,7 @@
       }
     }
 
-    // Click
+    // Click on progress-bar
     function mouseUp(e) {
       if (onPlayHead != null) {
         var player = document.getElementById(playerId);
@@ -226,7 +227,7 @@
       onPlayHead = null;
     }
 
-    // time update
+    // Time update
     function timeUpdate() {
       var audioSource = document.getElementById(onPlayHead);
       var player = document.getElementById(playerId);
