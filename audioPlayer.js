@@ -107,7 +107,7 @@
 
     // Calculate the time
     function calculateTime() {
-      var width = $("#progressBar__timeline").width();
+      var width = $("#mainBar").width();
       var length = audioPlayer.duration;
       var current_time = audioPlayer.currentTime;
 
@@ -117,8 +117,15 @@
       var currentTime = calculateCurrentValue(current_time);
       $(".startTime").html(currentTime);
 
-      var progressbar = document.getElementById("play-head");
-      progressbar.style.marginLeft =
+      var progressbar = document.getElementById("progressBar__timeline");
+
+      var size = parseInt(
+        (audioPlayer.currentTime * width) / audioPlayer.duration
+      );
+      progressbar.style.width = size + "px";
+
+      var playhead = document.getElementById("play-head");
+      playhead.style.marginLeft =
         width * (audioPlayer.currentTime / audioPlayer.duration) + "px";
     }
 
@@ -152,11 +159,11 @@
     function headBall() {
       onPlayHead = null;
       playerId = null;
-      timeline = document.getElementById("progressBar__timeline");
+      mainbar = document.getElementById("mainBar");
       playHead = document.getElementById("play-head");
-      timelineWidth = timeline.offsetWidth - playHead.offsetWidth;
+      timelineWidth = mainbar.offsetWidth - playHead.offsetHeight;
 
-      timeline.addEventListener("click", seek);
+      mainbar.addEventListener("click", seek);
       playHead.addEventListener("mousedown", drag);
       document.addEventListener("mouseup", mouseUp);
     }
@@ -164,11 +171,11 @@
     function seek(event) {
       var player = document.getElementById("audioSource");
       player.currentTime =
-        player.duration * clickPercent(event, timeline, timelineWidth);
+        player.duration * clickPercent(event, mainbar, timelineWidth);
     }
 
-    function clickPercent(event, timeline, timelineWidth) {
-      return (event.clientX - getPosition(timeline)) / timelineWidth;
+    function clickPercent(event, mainbar, timelineWidth) {
+      return (event.clientX - getPosition(mainbar)) / timelineWidth;
     }
 
     function getPosition(el) {
@@ -186,7 +193,7 @@
 
     function dragFunc(e) {
       var player = document.getElementById(onPlayHead);
-      var newMargLeft = e.clientX - getPosition(timeline);
+      var newMargLeft = e.clientX - getPosition(mainbar);
 
       if (newMargLeft >= 0 && newMargLeft <= timelineWidth) {
         playHead.style.marginLeft = newMargLeft + "px";
@@ -204,7 +211,7 @@
         var player = document.getElementById(playerId);
         window.removeEventListener("mousemove", dragFunc);
         player.currentTime =
-          player.duration * clickPercent(e, timeline, timelineWidth);
+          player.duration * clickPercent(e, mainbar, timelineWidth);
         audioPlayer.addEventListener("timeupdate", calculateTime);
         player.addEventListener("timeupdate", timeUpdate);
       }

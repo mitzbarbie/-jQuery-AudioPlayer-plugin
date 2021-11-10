@@ -65,7 +65,7 @@
 #progressBar__timeline {
   background: #4050ab;
   height: 4px;
-  width: 100%;
+  width: 0px;
   cursor: pointer;
 }
 
