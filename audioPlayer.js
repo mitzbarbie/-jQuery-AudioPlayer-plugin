@@ -61,7 +61,7 @@
     base.init();
 
     var isPlaying = false;
-    var audioPlayer, onPlayHead, playerId, timeline, playHead, timelineWidth;
+    var audioPlayer, onPlayHead, playerId, mainbar, playHead, timelineWidth;
 
     $(document).ready(function () {
       playController();
@@ -184,14 +184,12 @@
 
     // Drag options
     function drag(e) {
-      //audioPlayer.removeEventListener("timeupdate", calculateTime);
       audioPlayer.addEventListener("timeupdate", calculateTime);
 
       onPlayHead = $(this).attr("id");
       playerId = $(this).find("audio").attr("id");
       var player = document.getElementById(playerId);
       window.addEventListener("mousemove", dragOpts);
-      //player.removeEventListener("timeupdate", timeUpdate);
       player.addEventListener("timeupdate", timeUpdate);
     }
 
@@ -214,11 +212,11 @@
       }
     }
 
+    // Click
     function mouseUp(e) {
       if (onPlayHead != null) {
         var player = document.getElementById(playerId);
         window.removeEventListener("mousemove", dragOpts);
-        //window.addEventListener("mousemove", dragOpts);
 
         player.currentTime =
           player.duration * clickPercent(e, mainbar, timelineWidth);
@@ -228,6 +226,7 @@
       onPlayHead = null;
     }
 
+    // time update
     function timeUpdate() {
       var audioSource = document.getElementById(onPlayHead);
       var player = document.getElementById(playerId);
