@@ -10,7 +10,7 @@
   margin: 50px;
 }
 
-#playBtn {
+#playPauseBtn {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -62,7 +62,7 @@
   cursor: pointer;
 }
 
-#progressBar__timeline {
+#progressBar {
   background: #4050ab;
   height: 4px;
   width: 0px;
@@ -96,5 +96,5 @@
 }
 
 .muting::before {
-  margin-left: 8px;
+  margin-right: 8px;
 }

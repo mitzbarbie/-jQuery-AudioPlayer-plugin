@@ -1,24 +1,22 @@
 (function ($, window, document, undefined) {
   $.fn.audioPlayerUtils = function (options) {
-    var base = $(this);
-
-    base.init = function () {
-      base.audioContainer();
+    this.init = function () {
+      this.audioContainer();
     };
 
-    // HTML init
-    base.audioContainer = function () {
+    // developed an initial value of first building on page for HTML DOM init
+    this.audioContainer = function () {
       audioPlayer = $("<div></div>").appendTo("body");
       audioPlayer.prop("class", "audioPlayer");
 
-      playBtn = $("<a></a>").appendTo(audioPlayer);
-      playBtn.prop("id", "playBtn");
+      playPauseBtn = $("<a></a>").appendTo(audioPlayer);
+      playPauseBtn.prop("id", "playPauseBtn");
 
-      play = $("<i></i>").appendTo(playBtn);
+      play = $("<i></i>").appendTo(playPauseBtn);
       play.prop("class", "fa fa-play playing");
       $(".playing").css({ "aria-hidden": "true", color: "#fff" });
 
-      pause = $("<i></i>").appendTo(playBtn);
+      pause = $("<i></i>").appendTo(playPauseBtn);
       pause.prop("class", "fa fa-pause pausing");
       $(".pausing").css({
         "aria-hidden": "true",
@@ -33,9 +31,9 @@
       mainBar = $("<div></div>").appendTo(audioPlayer);
       mainBar.prop("id", "mainBar");
 
-      progressBar__timeline = $("<div></div>").appendTo(mainBar);
-      progressBar__timeline.prop("id", "progressBar__timeline");
-      $("#progressBar__timeline").append("<div id='play-head'></div>");
+      progressBar = $("<div></div>").appendTo(mainBar);
+      progressBar.prop("id", "progressBar");
+      $("#progressBar").append("<div id='play-head'></div>");
 
       endTime = $("<div></div>").appendTo(audioPlayer);
       endTime.prop("class", "endTime");
@@ -59,7 +57,7 @@
         display: "none",
       });
     };
-    base.init();
+    this.init();
 
     var isPlaying = false;
     var audioPlayer, onPlayHead, playerId, mainbar, playHead, timelineWidth;
@@ -70,19 +68,17 @@
       headBall();
     });
 
-    // Play & Pause Controller
+    // Play & Pause Controller / create event using by bind function
     function playController() {
       audioPlayer = document.getElementById("audioSource");
       audioPlayer.addEventListener("timeupdate", calculateTime);
-      $("#playBtn").bind("click", function (event) {
+      $("#playPauseBtn").bind("click", function (event) {
         if (isPlaying) {
-          console.log(" pas play");
-          $(".playing").show();
           $("#audioSource")[0].pause();
+          $(".playing").show();
           $(".pausing").hide();
         } else {
           $("#audioSource")[0].play();
-          console.log(" play");
           $(".playing").hide();
           $(".pausing").show();
         }
@@ -91,7 +87,7 @@
       });
     }
 
-    // Mute & Unmute Controller
+    // Mute & Unmute Controller / create event using by bind function
     function muteController() {
       $("#volumeBtn").bind("click", function (event) {
         if ($("#audioSource")[0].muted) {
@@ -106,7 +102,7 @@
       });
     }
 
-    // Calculate the time
+    // Calculate the audio play time and distance of progress-bar duration
     function calculateTime() {
       var width = $("#mainBar").width();
       var length = audioPlayer.duration;
@@ -118,7 +114,7 @@
       var currentTime = calculateCurrentValue(current_time);
       $(".startTime").html(currentTime);
 
-      var progressbar = document.getElementById("progressBar__timeline");
+      var progressbar = document.getElementById("progressBar");
 
       var size = parseInt(
         (audioPlayer.currentTime * width) / audioPlayer.duration
@@ -156,7 +152,7 @@
       return current_time;
     }
 
-    // Progress-bar - playhead
+    // Progress-bar / timeine (loading) & playhead
     function headBall() {
       onPlayHead = null;
       playerId = null;
@@ -183,7 +179,7 @@
       return el.getBoundingClientRect().left;
     }
 
-    // Drag options
+    // Drag and drag options
     function drag(e) {
       audioPlayer.addEventListener("timeupdate", calculateTime);
 
@@ -196,7 +192,7 @@
 
     function dragOpts(e) {
       var player = document.getElementById(onPlayHead);
-      var progressbar = document.getElementById("progressBar__timeline");
+      var progressbar = document.getElementById("progressBar");
       var newMargLeft = e.clientX - getPosition(mainbar);
 
       if (newMargLeft >= 0 && newMargLeft <= timelineWidth) {
@@ -213,7 +209,7 @@
       }
     }
 
-    // Click on progress-bar
+    // Click (mouse-up and down) on progress-bar
     function mouseUp(e) {
       if (onPlayHead != null) {
         var player = document.getElementById(playerId);
@@ -227,7 +223,7 @@
       onPlayHead = null;
     }
 
-    // Time update
+    // Time update after/before drag or click event
     function timeUpdate() {
       var audioSource = document.getElementById(onPlayHead);
       var player = document.getElementById(playerId);
