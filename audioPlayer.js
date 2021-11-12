@@ -40,6 +40,7 @@
       endTime.html("00:00");
 
       volumeBtn = $("<a></a>").appendTo(audioPlayer);
+
       volumeBtn.prop("id", "volumeBtn");
 
       mute = $("<i></i>").appendTo(volumeBtn);
@@ -71,7 +72,7 @@
     // Play & Pause Controller / create event using by bind function
     function playController() {
       audioPlayer = document.getElementById("audioSource");
-      audioPlayer.addEventListener("timeupdate", calculateTime);
+      audioPlayer.addEventListener("timeupdate", liveTime);
       $("#playPauseBtn").bind("click", function (event) {
         if (isPlaying) {
           $("#audioSource")[0].pause();
@@ -102,30 +103,7 @@
       });
     }
 
-    // Calculate the audio play time and distance of progress-bar duration
-    function calculateTime() {
-      var width = $("#mainBar").width();
-      var length = audioPlayer.duration;
-      var current_time = audioPlayer.currentTime;
-
-      var totalLength = calculateTotalValue(length);
-      $(".endTime").html(totalLength);
-
-      var currentTime = calculateCurrentValue(current_time);
-      $(".startTime").html(currentTime);
-
-      var progressbar = document.getElementById("progressBar");
-
-      var size = parseInt(
-        (audioPlayer.currentTime * width) / audioPlayer.duration
-      );
-      progressbar.style.width = size + "px";
-
-      var playhead = document.getElementById("play-head");
-      playhead.style.marginLeft =
-        width * (audioPlayer.currentTime / audioPlayer.duration) + "px";
-    }
-
+    // Calculate current value of time and total value
     function calculateTotalValue(length) {
       var minutes = Math.floor(length / 60);
       var seconds_int = length - minutes * 60;
@@ -150,6 +128,30 @@
           (current_seconds < 10 ? "0" + current_seconds : current_seconds);
 
       return current_time;
+    }
+
+    // Calculate the audio live time and distance of progress-bar duration
+    function liveTime() {
+      var width = $("#mainBar").width();
+      var length = audioPlayer.duration;
+      var current_time = audioPlayer.currentTime;
+
+      var totalLength = calculateTotalValue(length);
+      $(".endTime").html(totalLength);
+
+      var currentTime = calculateCurrentValue(current_time);
+      $(".startTime").html(currentTime);
+
+      var progressbar = document.getElementById("progressBar");
+
+      var size = parseInt(
+        (audioPlayer.currentTime * width) / audioPlayer.duration
+      );
+      progressbar.style.width = size + "px";
+
+      var playhead = document.getElementById("play-head");
+      playhead.style.marginLeft =
+        width * (audioPlayer.currentTime / audioPlayer.duration) + "px";
     }
 
     // Progress-bar / timeine (loading) & playhead
@@ -181,7 +183,7 @@
 
     // Drag and drag options
     function drag(e) {
-      audioPlayer.addEventListener("timeupdate", calculateTime);
+      audioPlayer.addEventListener("timeupdate", liveTime);
 
       onPlayHead = $(this).attr("id");
       playerId = $(this).find("audio").attr("id");
@@ -217,7 +219,7 @@
 
         player.currentTime =
           player.duration * clickPercent(e, mainbar, timelineWidth);
-        audioPlayer.addEventListener("timeupdate", calculateTime);
+        audioPlayer.addEventListener("timeupdate", liveTime);
         player.addEventListener("timeupdate", timeUpdate);
       }
       onPlayHead = null;
