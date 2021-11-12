@@ -16,7 +16,7 @@
   align-items: center;
   width: 49px;
   height: 55px;
-  border-radius: 4px 0 0 4px;
+  border-radius: 3px 0 0 3px;
   background: #4050ab;
   cursor: pointer;
 }
@@ -27,7 +27,7 @@
   justify-content: center;
   align-items: center;
   width: 45px;
-  height: 52px;
+  height: 51px;
   border-radius: 4px 0 0 4px;
   cursor: pointer;
   border: 2px solid #4050ab;
