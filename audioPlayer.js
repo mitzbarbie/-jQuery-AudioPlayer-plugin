@@ -63,11 +63,9 @@
     var isPlaying = false;
     var audioPlayer, onPlayHead, playerId, mainbar, playHead, timelineWidth;
 
-    $(document).ready(function () {
-      playController();
-      muteController();
-      headBall();
-    });
+    playController();
+    muteController();
+    headBall();
 
     // Play & Pause Controller / create event using by bind function
     function playController() {
