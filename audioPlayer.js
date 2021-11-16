@@ -1,64 +1,83 @@
+/*
+<div class="audioPlayer" style="margin: 50px">
+  <a id="playBtn">
+    <i class="fa fa-play playing" aria-hidden="true" style="color: #fff"></i>
+    <i class="fa fa-pause pausing" aria-hidden="true" style="display: none; color: #fff"></i>
+  </a>
+
+  <div class="startTime">00:00</div>
+
+  <div id="mainBar">
+    <div id="progressBar__timeline"></div>
+  </div>
+
+  <div class="endTime">00:00</div>
+
+  <a id="volumeBtn">
+    <i class="fa fa-volume-up volume" style="color: #4050ab" aria-hidden="true" ></i>
+    <i class="fa fa-volume-off muting" aria-hidden="true" style="display: none; color: #fd4f1a; margin-right: 8px"></i>
+  </a>
+
+  <audio id="audioSource">
+    <source src="" type="audio/mpeg" />
+  </audio>
+</div>
+*/
+
 (function ($, window, document, undefined) {
   $.fn.audioPlayerUtils = function (options) {
-    this.init = function () {
-      this.audioContainer();
-    };
+    var settings = $.extend({}, options),
+      // developed an initial value of first building on page for HTML DOM init
+      htmlInit =
+        '<div class="audioPlayer" style="margin: 50px">\
+          <a id="playPauseBtn">\
+            <i class="fa fa-play playing" aria-hidden="true" style="color: #fff"></i>\
+            <i class="fa fa-pause pausing" aria-hidden="true" style="display: none; color: #4050ab"></i>\
+          </a>\
+          <div class="startTime">00:00</div>\
+          <div id="mainBar">\
+            <div id="progressBar">\
+              <div id="play-head"></div>\
+            </div>\
+          </div>\
+          <div class="endTime">00:00</div>\
+          <a id="volumeBtn">\
+            <i class="fa fa-volume-up volume" style="color: #4050ab" aria-hidden="true" ></i>\
+            <i class="fa fa-volume-off muting" aria-hidden="true" style="display: none; color: #fd4f1a; margin-right: 8px"></i>\
+          </a>\
+          <audio id="audioSource" class="audioSource">\
+            <source src="" type="audio/mp3" />\
+          </audio>\
+          </div>',
+      $this = this,
+      $audioSource = {},
+      $playPauseBtn = {},
+      $playBtn = {},
+      $pauseBtn = {},
+      $startTime = {},
+      $endTime = {},
+      $mainBar = {},
+      $progressBar = {},
+      $playHead = {},
+      $volume = {},
+      $muteBtn = {},
+      $unmuteBtn = {},
+      playerStatus = "";
+    $this.append(htmlInit);
+    $playPauseBtn = $("#playPauseBtn");
+    $playBtn = $(".playing");
+    $pauseBtn = $(".pausing");
+    $startTime = $(".startTime");
+    $endTime = $(".endTime");
+    $mainBar = $("#mainBar");
+    $progressBar = $("#progressBar");
+    $playHead = $("#play-head");
+    $volume = $("#volumeBtn");
+    $muteBtn = $(".volume");
+    $unmuteBtn = $(".muting");
+    $audioSource = document.getElementById("audioSource");
 
-    // developed an initial value of first building on page for HTML DOM init
-    this.audioContainer = function () {
-      audioPlayer = $("<div></div>").appendTo("body");
-      audioPlayer.prop("class", "audioPlayer");
-
-      playPauseBtn = $("<a></a>").appendTo(audioPlayer);
-      playPauseBtn.prop("id", "playPauseBtn");
-
-      play = $("<i></i>").appendTo(playPauseBtn);
-      play.prop("class", "fa fa-play playing");
-      $(".playing").css({ "aria-hidden": "true", color: "#fff" });
-
-      pause = $("<i></i>").appendTo(playPauseBtn);
-      pause.prop("class", "fa fa-pause pausing");
-      $(".pausing").css({
-        "aria-hidden": "true",
-        color: "#4050ab",
-        display: "none",
-      });
-
-      startTime = $("<div></div>").appendTo(audioPlayer);
-      startTime.prop("class", "startTime");
-      startTime.html("00:00");
-
-      mainBar = $("<div></div>").appendTo(audioPlayer);
-      mainBar.prop("id", "mainBar");
-
-      progressBar = $("<div></div>").appendTo(mainBar);
-      progressBar.prop("id", "progressBar");
-      $("#progressBar").append("<div id='play-head'></div>");
-
-      endTime = $("<div></div>").appendTo(audioPlayer);
-      endTime.prop("class", "endTime");
-      endTime.html("00:00");
-
-      volumeBtn = $("<a></a>").appendTo(audioPlayer);
-
-      volumeBtn.prop("id", "volumeBtn");
-
-      mute = $("<i></i>").appendTo(volumeBtn);
-      mute.prop("class", "fa fa-volume-up volume");
-      $(".volume").css({
-        "aria-hidden": "true",
-        color: "#4050ab",
-      });
-
-      unmute = $("<i></i>").appendTo(volumeBtn);
-      unmute.prop("class", "fa fa-volume-off muting");
-      $(".muting").css({
-        "aria-hidden": "true",
-        color: "#fd4f1a",
-        display: "none",
-      });
-    };
-    this.init();
+    $audioSource.src = settings.songs[0];
 
     var isPlaying = false;
     var audioPlayer, onPlayHead, playerId, mainbar, playHead, timelineWidth;
@@ -70,16 +89,18 @@
     // Play & Pause Controller / create event using by bind function
     function playController() {
       audioPlayer = document.getElementById("audioSource");
-      audioPlayer.addEventListener("timeupdate", liveTime);
-      $("#playPauseBtn").bind("click", function (event) {
+      audioPlayer.addEventListener("timeupdate", progressTime);
+      audioPlayer.addEventListener("timeupdate", timeValue);
+
+      $playPauseBtn.bind("click", function (event) {
         if (isPlaying) {
-          $("#audioSource")[0].pause();
-          $(".playing").show();
-          $(".pausing").hide();
+          $audioSource.pause();
+          $playBtn.show();
+          $pauseBtn.hide();
         } else {
-          $("#audioSource")[0].play();
-          $(".playing").hide();
-          $(".pausing").show();
+          $audioSource.play();
+          $playBtn.hide();
+          $pauseBtn.show();
         }
 
         isPlaying = !isPlaying;
@@ -88,33 +109,20 @@
 
     // Mute & Unmute Controller / create event using by bind function
     function muteController() {
-      $("#volumeBtn").bind("click", function (event) {
-        if ($("#audioSource")[0].muted) {
-          $(".volume").show();
-          $(".muting").hide();
+      $volume.bind("click", function (event) {
+        if ($audioSource.muted) {
+          $muteBtn.show();
+          $unmuteBtn.hide();
         } else {
-          $(".volume").hide();
-          $(".muting").show();
+          $muteBtn.hide();
+          $unmuteBtn.show();
         }
 
-        $("#audioSource")[0].muted = !$("#audioSource")[0].muted;
+        $audioSource.muted = !$audioSource.muted;
       });
     }
 
-    // Calculate current value of time and total value
-    function calculateTotalValue(length) {
-      var minutes = Math.floor(length / 60);
-      var seconds_int = length - minutes * 60;
-      if (seconds_int < 10) {
-        seconds_int = "0" + seconds_int;
-      }
-      var seconds_str = seconds_int.toString();
-      var seconds = seconds_str.substr(0, 2);
-      var time = minutes + ":" + seconds;
-
-      return time;
-    }
-
+    // Calculate current value of time and total value of length
     function calculateCurrentValue(currentTime) {
       var current_hour = parseInt(currentTime / 3600) % 24,
         current_minute = parseInt(currentTime / 60) % 60,
@@ -128,24 +136,47 @@
       return current_time;
     }
 
-    // Calculate the audio live time and distance of progress-bar duration
-    function liveTime() {
-      var width = $("#mainBar").width();
+    function calculateTotalValue(length) {
+      var minutes = parseInt(Math.floor(length / 60));
+      if (isNaN(minutes)) {
+        minutes = "00";
+      }
+      var seconds_int = parseInt(length - minutes * 60);
+      if (isNaN(seconds_int)) {
+        seconds_int = "00";
+      }
+      if (seconds_int < 10) {
+        seconds_int = "0" + seconds_int;
+      }
+      var seconds_str = seconds_int.toString();
+      var seconds = seconds_str.substr(0, 2);
+      var time = minutes + ":" + seconds;
+
+      return time;
+    }
+
+    // Calculate the audio live time value (start & end-time)
+    function timeValue() {
       var length = audioPlayer.duration;
       var current_time = audioPlayer.currentTime;
 
-      var totalLength = calculateTotalValue(length);
-      $(".endTime").html(totalLength);
-
       var currentTime = calculateCurrentValue(current_time);
-      $(".startTime").html(currentTime);
+      $startTime.html(currentTime);
 
-      var progressbar = document.getElementById("progressBar");
+      var totalLength = calculateTotalValue(length);
+      $endTime.html(totalLength);
+    }
+
+    // Calculate the distance of progress-bar duration
+    function progressTime() {
+      var width = $mainBar.width();
+
+      var progressBar = document.getElementById("progressBar");
 
       var size = parseInt(
         (audioPlayer.currentTime * width) / audioPlayer.duration
       );
-      progressbar.style.width = size + "px";
+      progressBar.style.width = size + "px";
 
       var playhead = document.getElementById("play-head");
       playhead.style.marginLeft =
@@ -181,10 +212,11 @@
 
     // Drag and drag options
     function drag(e) {
-      audioPlayer.addEventListener("timeupdate", liveTime);
+      audioPlayer.addEventListener("timeupdate", progressTime);
+      audioPlayer.addEventListener("timeupdate", timeValue);
 
       onPlayHead = $(this).attr("id");
-      playerId = $(this).find("audio").attr("id");
+      playerId = $(this).find("audio").attr("class", "id");
       var player = document.getElementById(playerId);
       window.addEventListener("mousemove", dragOpts);
       player.addEventListener("timeupdate", timeUpdate);
@@ -192,20 +224,20 @@
 
     function dragOpts(e) {
       var player = document.getElementById(onPlayHead);
-      var progressbar = document.getElementById("progressBar");
+      var progressBar = document.getElementById("progressBar");
       var newMargLeft = e.clientX - getPosition(mainbar);
 
       if (newMargLeft >= 0 && newMargLeft <= timelineWidth) {
         playHead.style.marginLeft = newMargLeft + "px";
-        progressbar.style.width = newMargLeft + "px";
+        progressBar.style.width = newMargLeft + "px";
       }
       if (newMargLeft < 0) {
         playHead.style.marginLeft = "0px";
-        progressbar.style.width = "0px";
+        progressBar.style.width = "0px";
       }
       if (newMargLeft > timelineWidth) {
         playHead.style.marginLeft = timelineWidth + "px";
-        progressbar.style.width = timelineWidth + "px";
+        progressBar.style.width = timelineWidth + "px";
       }
     }
 
@@ -217,7 +249,9 @@
 
         player.currentTime =
           player.duration * clickPercent(e, mainbar, timelineWidth);
-        audioPlayer.addEventListener("timeupdate", liveTime);
+        audioPlayer.addEventListener("timeupdate", progressTime);
+        audioPlayer.addEventListener("timeupdate", timeValue);
+
         player.addEventListener("timeupdate", timeUpdate);
       }
       onPlayHead = null;
@@ -234,5 +268,6 @@
         player.pause();
       }
     }
+    return this;
   };
 })(jQuery, window, document);

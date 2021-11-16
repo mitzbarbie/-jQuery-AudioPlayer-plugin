@@ -50,6 +50,11 @@
   color: #4050ab;
 }
 
+.endTime {
+  display: flex;
+  width: 40px;
+}
+
 #mainBar {
   background: #dde2e6;
   width: 100%;
@@ -58,7 +63,7 @@
   flex-basis: 0;
   flex-grow: 1;
   position: relative;
-  border-radius: 3px;
+  border-radius: px;
   cursor: pointer;
 }
 
@@ -84,7 +89,8 @@
 }
 
 .endTime {
-  margin-right: 15px;
+  margin-left: 6px;
+  margin-right: 10px;
   font-weight: 500;
   font-size: 13px;
   color: #999;
@@ -92,9 +98,10 @@
 
 #volumeBtn {
   margin-right: 15px;
+  margin-bottom: 2px;
   cursor: pointer;
 }
 
-.muting::before {
-  margin-right: 8px;
+#volumeBtn {
+  margin-right: 20px;
 }

@@ -17,15 +17,19 @@
     ></script>
   </head>
   <body>
-    <audio id="audioSource">
-      <source src="audio/North Oakland Extasy - Squadda B.mp3" />
-    </audio>
+    <div class="container">
+      <div class="audio">
+        <script>
+          $(function () {
+            var $audioPlay = $(".audio").audioPlayerUtils({
+              songs: ["drifting at 432 hz - unicorn heads.mp3"],
+              onStatusChange: function (e) {},
+            });
+          });
+        </script>
+      </div>
+    </div>
 
     <script src="audioPlayer.js"></script>
-    <script>
-      $(function () {
-        $("audio").audioPlayerUtils();
-      });
-    </script>
   </body>
 </html>
