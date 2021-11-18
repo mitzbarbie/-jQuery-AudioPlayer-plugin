@@ -1,30 +1,6 @@
-/*
-<div class="audioPlayer" style="margin: 50px">
-  <a id="playBtn">
-    <i class="fa fa-play playing" aria-hidden="true" style="color: #fff"></i>
-    <i class="fa fa-pause pausing" aria-hidden="true" style="display: none; color: #fff"></i>
-  </a>
-
-  <div class="startTime">00:00</div>
-
-  <div id="mainBar">
-    <div id="progressBar__timeline"></div>
-  </div>
-
-  <div class="endTime">00:00</div>
-
-  <a id="volumeBtn">
-    <i class="fa fa-volume-up volume" style="color: #4050ab" aria-hidden="true" ></i>
-    <i class="fa fa-volume-off muting" aria-hidden="true" style="display: none; color: #fd4f1a; margin-right: 8px"></i>
-  </a>
-
-  <audio id="audioSource">
-    <source src="" type="audio/mpeg" />
-  </audio>
-</div>
-*/
-
 (function ($, window, document, undefined) {
+  "use strict";
+
   $.fn.audioPlayerUtils = function (options) {
     var settings = $.extend({}, options),
       // developed an initial value of first building on page for HTML DOM init
@@ -46,7 +22,7 @@
             <i class="fa fa-volume-off muting" aria-hidden="true" style="display: none; color: #fd4f1a; margin-right: 8px"></i>\
           </a>\
           <audio id="audioSource" class="audioSource">\
-            <source src="" type="audio/mp3" />\
+            <source src="" type="audio/mpeg" />\
           </audio>\
           </div>',
       $this = this,
@@ -63,6 +39,7 @@
       $muteBtn = {},
       $unmuteBtn = {},
       playerStatus = "";
+
     $this.append(htmlInit);
     $playPauseBtn = $("#playPauseBtn");
     $playBtn = $(".playing");
@@ -91,7 +68,6 @@
       audioPlayer = document.getElementById("audioSource");
       audioPlayer.addEventListener("timeupdate", progressTime);
       audioPlayer.addEventListener("timeupdate", timeValue);
-
       $playPauseBtn.bind("click", function (event) {
         if (isPlaying) {
           $audioSource.pause();
