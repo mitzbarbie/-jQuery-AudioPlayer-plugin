@@ -244,6 +244,23 @@
         player.pause();
       }
     }
+
+    // public events
+    $audioSource.canPlay = function () {
+      setEventStatusChange("readyToPlay");
+    };
+
+    $this.getStatus = function () {
+      return status;
+    };
+
+    function setEventStatusChange(s) {
+      status = s;
+      if (options.onStatusChange !== undefined) {
+        options.onStatusChange(status);
+      }
+    }
+
     return this;
   };
 })(jQuery, window, document);
