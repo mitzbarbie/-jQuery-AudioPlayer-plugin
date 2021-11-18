@@ -5,7 +5,7 @@
     var settings = $.extend({}, options),
       // developed an initial value of first building on page for HTML DOM init
       htmlInit =
-        '<div class="audioPlayer" style="margin: 50px">\
+        '<div class="audioPlayer">\
           <a id="playPauseBtn">\
             <i class="fa fa-play playing" aria-hidden="true" style="color: #fff"></i>\
             <i class="fa fa-pause pausing" aria-hidden="true" style="display: none; color: #4050ab"></i>\
