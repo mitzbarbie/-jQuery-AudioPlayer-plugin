@@ -146,26 +146,23 @@
     // Calculate the distance of progress-bar duration
     function progressTime() {
       var width = $mainBar.width();
-
       var progressBar = document.getElementById("progressBar");
-
-      var size = parseInt(
-        (audioPlayer.currentTime * width) / audioPlayer.duration
-      );
+      var size = width * (audioPlayer.currentTime / audioPlayer.duration);
       progressBar.style.width = size + "px";
-
+      console.log(size);
       var playhead = document.getElementById("play-head");
       playhead.style.marginLeft =
         width * (audioPlayer.currentTime / audioPlayer.duration) + "px";
     }
 
+    //-------------------------------------------------------------
     // Progress-bar / timeine (loading) & playhead
     function headBall() {
       onPlayHead = null;
       playerId = null;
       mainbar = document.getElementById("mainBar");
       playHead = document.getElementById("play-head");
-      timelineWidth = mainbar.offsetWidth - playHead.offsetHeight;
+      timelineWidth = mainbar.scrollWidth - playHead.scrollHeight;
 
       mainbar.addEventListener("click", seek);
       playHead.addEventListener("mousedown", drag);
@@ -185,6 +182,7 @@
     function getPosition(el) {
       return el.getBoundingClientRect().left;
     }
+    //-------------------------------------------------------------
 
     // Drag and drag options
     function drag(e) {
@@ -242,22 +240,6 @@
 
       if (player.currentTime == player.duration) {
         player.pause();
-      }
-    }
-
-    // public events
-    $audioSource.canPlay = function () {
-      setEventStatusChange("readyToPlay");
-    };
-
-    $this.getStatus = function () {
-      return status;
-    };
-
-    function setEventStatusChange(s) {
-      status = s;
-      if (options.onStatusChange !== undefined) {
-        options.onStatusChange(status);
       }
     }
 
