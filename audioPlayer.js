@@ -66,7 +66,7 @@
     // Play & Pause Controller / create event using by bind function
     function playController() {
       audioPlayer = document.getElementById("audioSource");
-      audioPlayer.addEventListener("timeupdate", progressTime);
+      audioPlayer.addEventListener("timeupdate", progressShow);
       audioPlayer.addEventListener("timeupdate", timeValue);
       $playPauseBtn.bind("click", function (event) {
         if (isPlaying) {
@@ -144,7 +144,7 @@
     }
 
     // Calculate the distance of progress-bar duration
-    function progressTime() {
+    function progressShow() {
       var width = $mainBar.width();
       var progressBar = document.getElementById("progressBar");
       var size = width * (audioPlayer.currentTime / audioPlayer.duration);
@@ -155,14 +155,13 @@
         width * (audioPlayer.currentTime / audioPlayer.duration) + "px";
     }
 
-    //-------------------------------------------------------------
     // Progress-bar / timeine (loading) & playhead
     function headBall() {
       onPlayHead = null;
       playerId = null;
       mainbar = document.getElementById("mainBar");
       playHead = document.getElementById("play-head");
-      timelineWidth = mainbar.scrollWidth - playHead.scrollHeight;
+      timelineWidth = mainbar.clientWidth - playHead.clientHeight;
 
       mainbar.addEventListener("click", seek);
       playHead.addEventListener("mousedown", drag);
@@ -182,11 +181,10 @@
     function getPosition(el) {
       return el.getBoundingClientRect().left;
     }
-    //-------------------------------------------------------------
 
     // Drag and drag options
     function drag(e) {
-      audioPlayer.addEventListener("timeupdate", progressTime);
+      audioPlayer.addEventListener("timeupdate", progressShow);
       audioPlayer.addEventListener("timeupdate", timeValue);
 
       onPlayHead = $(this).attr("id");
@@ -223,7 +221,7 @@
 
         player.currentTime =
           player.duration * clickPercent(e, mainbar, timelineWidth);
-        audioPlayer.addEventListener("timeupdate", progressTime);
+        audioPlayer.addEventListener("timeupdate", progressShow);
         audioPlayer.addEventListener("timeupdate", timeValue);
 
         player.addEventListener("timeupdate", timeUpdate);
