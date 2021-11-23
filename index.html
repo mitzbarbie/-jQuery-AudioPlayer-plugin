@@ -17,17 +17,15 @@
     ></script>
   </head>
   <body>
-    <div class="container" style="margin: 100px">
-      <div class="audio">
-        <script>
-          $(function () {
-            var $audioPlay = $(".audio").audioPlayerUtils({
-              songs: ["audioEx1.mp3"],
-            });
-          });
-        </script>
-      </div>
-    </div>
+    <div class="audio" style="margin: 100px"></div>
+
+    <script>
+      $(document).ready(function () {
+        $(".audio").audioPlayerUtils({
+          songs: ["audioEx1.mp3"],
+        });
+      });
+    </script>
 
     <script src="audioPlayer.js"></script>
   </body>
