@@ -6,24 +6,24 @@
       // developed an initial value of first building on page for HTML DOM init
       var htmlInit =
           '<div class="audioPlayer">\
-          <a id="playPauseBtn">\
-          <i class="fa fa-play playing" aria-hidden="true" style="color: #fff"></i>\
-          <i class="fa fa-pause pausing" aria-hidden="true" style="display: none; color: #4050ab"></i>\
-          </a>\
-          <div class="startTime">00:00</div>\
-          <div id="mainBar">\
-          <div id="progressBar">\
-          <div id="play-head"></div>\
-          </div>\
-          </div>\
-          <div class="endTime">00:00</div>\
-          <a id="volumeBtn">\
-          <i class="fa fa-volume-up volume" style="color: #4050ab" aria-hidden="true" ></i>\
-          <i class="fa fa-volume-off muting" aria-hidden="true" style="display: none; color: #fd4f1a; margin-right: 8px"></i>\
-          </a>\
-          <audio id="audioSource" class="audioSource">\
-          <source src="" type="audio/mpeg" />\
-          </audio>\
+            <a id="playPauseBtn">\
+              <i class="fa fa-play playing" aria-hidden="true" style="color: #fff"></i>\
+              <i class="fa fa-pause pausing" aria-hidden="true" style="display: none; color: #4050ab"></i>\
+            </a>\
+            <div class="startTime">00:00</div>\
+            <div id="mainBar">\
+              <div id="progressBar">\
+                <div id="play-head"></div>\
+              </div>\
+            </div>\
+            <div class="endTime">00:00</div>\
+            <a id="volumeBtn">\
+              <i class="fa fa-volume-up volume" style="color: #4050ab" aria-hidden="true" ></i>\
+              <i class="fa fa-volume-off muting" aria-hidden="true" style="display: none; color: #fd4f1a; margin-right: 8px"></i>\
+            </a>\
+            <audio id="audioSource" class="audioSource">\
+              <source src="" type="audio/mpeg" />\
+            </audio>\
           </div>',
         $this = $(this),
         $audioSource = {},
