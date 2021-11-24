@@ -27,26 +27,7 @@
           </div>';
 
       var $this = $(this);
-      //var base = this;
-
       $this.append(htmlInit);
-
-      /*
-      base.$playPauseBtn = $(".audioPlayer").find("#playPauseBtn");
-      base.$playBtn = $(".audioPlayer").find(".playing");
-      base.$pauseBtn = $(".audioPlayer").find(".pausing");
-      base.$startTime = $(".audioPlayer").find(".startTime");
-      base.$endTime = $(".audioPlayer").find(".endTime");
-      base.$mainBar = $(".audioPlayer").find("#mainBar");
-      base.$progressBar = $(".audioPlayer").find("#progressBar");
-      base.$playHead = $(".audioPlayer").find("#play-head");
-      base.$volumeBtn = $(".audioPlayer").find("#volumeBtn");
-      base.$muteBtn = $(".audioPlayer").find(".volume");
-      base.$unmuteBtn = $(".audioPlayer").find(".muting");
-      base.$audioSource = document.getElementById("audioSource");
-
-      base.$audioSource.src = settings.songs[0];
-*/
 
       var $playPauseBtn = $this.find("#playPauseBtn"),
         $playBtn = $this.find(".playing"),
@@ -60,7 +41,6 @@
         $muteBtn = $this.find(".volume"),
         $unmuteBtn = $this.find(".muting"),
         $audioSource = $this.find("#audioSource")[0];
-      //$audioSource = document.getElementById("audioSource");
 
       $audioSource.src = settings.songs[0];
 
@@ -73,7 +53,6 @@
 
       // Play & Pause Controller / create event using by bind function
       function playController() {
-        //audioPlayer = document.getElementById("audioSource");
         audioPlayer = $audioSource;
         audioPlayer.addEventListener("timeupdate", progressShow);
         audioPlayer.addEventListener("timeupdate", timeValue);
@@ -144,7 +123,6 @@
       function timeValue() {
         var length = audioPlayer.duration;
         var current_time = audioPlayer.currentTime;
-
         var currentTime = calculateCurrentValue(current_time);
         $startTime.html(currentTime);
 
@@ -154,13 +132,12 @@
 
       // Calculate the distance of progress-bar duration
       function progressShow() {
-        var width = $mainBar.width();
-        //var progressBar = document.getElementById("progressBar");
         var progressBar = $progressBar[0];
+        var width = $mainBar.width();
         var size = width * (audioPlayer.currentTime / audioPlayer.duration);
         progressBar.style.width = size + "px";
         console.log(size);
-        //var playhead = document.getElementById("play-head");
+
         var playhead = $playHead[0];
         playhead.style.marginLeft =
           width * (audioPlayer.currentTime / audioPlayer.duration) + "px";
@@ -170,9 +147,7 @@
       function headBall() {
         onPlayHead = null;
         playerId = null;
-        //mainbar = document.getElementById("mainBar");
         mainbar = $mainBar[0];
-        //playHead = document.getElementById("play-head");
         playHead = $playHead[0];
         timelineWidth = mainbar.clientWidth - playHead.clientHeight;
 
@@ -182,7 +157,6 @@
       }
 
       function seek(event) {
-        //var player = document.getElementById("audioSource");
         var player = $audioSource;
         player.currentTime =
           player.duration * clickPercent(event, mainbar, timelineWidth);
@@ -198,19 +172,17 @@
 
       // Drag and drag options
       function drag(e) {
+        var player = document.getElementById(playerId);
         audioPlayer.addEventListener("timeupdate", progressShow);
         audioPlayer.addEventListener("timeupdate", timeValue);
-
         onPlayHead = $this.attr("id");
         playerId = $this.find("audio").attr("class", "id");
-        var player = document.getElementById(playerId);
         window.addEventListener("mousemove", dragOpts);
         player.addEventListener("timeupdate", timeUpdate);
       }
 
       function dragOpts(e) {
         var player = document.getElementById(onPlayHead);
-        //var progressBar = document.getElementById("progressBar");
         var progressBar = $progressBar[0];
         var newMargLeft = e.clientX - getPosition(mainbar);
 
@@ -233,7 +205,6 @@
         if (onPlayHead != null) {
           var player = document.getElementById(playerId);
           window.removeEventListener("mousemove", dragOpts);
-
           player.currentTime =
             player.duration * clickPercent(e, mainbar, timelineWidth);
           audioPlayer.addEventListener("timeupdate", progressShow);
