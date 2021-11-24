@@ -17,12 +17,24 @@
     ></script>
   </head>
   <body>
-    <div class="audio"></div>
+    <div id="audio"></div>
+
+    <div id="audio2"></div>
+
+    <div id="audio3"></div>
 
     <script>
       $(document).ready(function () {
-        $(".audio").audioPlayerUtils({
+        $("#audio").audioPlayerUtils({
           songs: ["audioEx1.mp3"],
+        });
+
+        $("#audio2").audioPlayerUtils({
+          songs: ["audioEx2.mp3"],
+        });
+
+        $("#audio3").audioPlayerUtils({
+          songs: ["audioEx3.mp3"],
         });
       });
     </script>

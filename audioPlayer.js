@@ -5,7 +5,7 @@
     return this.each(function () {
       // developed an initial value of first building on page for HTML DOM init
       var htmlInit =
-          '<div class="audioPlayer">\
+        '<div class="audioPlayer">\
             <a id="playPauseBtn">\
               <i class="fa fa-play playing" aria-hidden="true" style="color: #fff"></i>\
               <i class="fa fa-pause pausing" aria-hidden="true" style="display: none; color: #4050ab"></i>\
@@ -24,36 +24,43 @@
             <audio id="audioSource" class="audioSource">\
               <source src="" type="audio/mpeg" />\
             </audio>\
-          </div>',
-        $this = $(this),
-        $audioSource = {},
-        $playPauseBtn = {},
-        $playBtn = {},
-        $pauseBtn = {},
-        $startTime = {},
-        $endTime = {},
-        $mainBar = {},
-        $progressBar = {},
-        $playHead = {},
-        $volume = {},
-        $muteBtn = {},
-        $unmuteBtn = {},
-        playerStatus = "";
+          </div>';
+
+      var $this = $(this);
+      //var base = this;
 
       $this.append(htmlInit);
 
-      $playPauseBtn = $("#playPauseBtn");
-      $playBtn = $(".playing");
-      $pauseBtn = $(".pausing");
-      $startTime = $(".startTime");
-      $endTime = $(".endTime");
-      $mainBar = $("#mainBar");
-      $progressBar = $("#progressBar");
-      $playHead = $("#play-head");
-      $volume = $("#volumeBtn");
-      $muteBtn = $(".volume");
-      $unmuteBtn = $(".muting");
-      $audioSource = document.getElementById("audioSource");
+      /*
+      base.$playPauseBtn = $(".audioPlayer").find("#playPauseBtn");
+      base.$playBtn = $(".audioPlayer").find(".playing");
+      base.$pauseBtn = $(".audioPlayer").find(".pausing");
+      base.$startTime = $(".audioPlayer").find(".startTime");
+      base.$endTime = $(".audioPlayer").find(".endTime");
+      base.$mainBar = $(".audioPlayer").find("#mainBar");
+      base.$progressBar = $(".audioPlayer").find("#progressBar");
+      base.$playHead = $(".audioPlayer").find("#play-head");
+      base.$volumeBtn = $(".audioPlayer").find("#volumeBtn");
+      base.$muteBtn = $(".audioPlayer").find(".volume");
+      base.$unmuteBtn = $(".audioPlayer").find(".muting");
+      base.$audioSource = document.getElementById("audioSource");
+
+      base.$audioSource.src = settings.songs[0];
+*/
+
+      var $playPauseBtn = $this.find("#playPauseBtn"),
+        $playBtn = $this.find(".playing"),
+        $pauseBtn = $this.find(".pausing"),
+        $startTime = $this.find(".startTime"),
+        $endTime = $this.find(".endTime"),
+        $mainBar = $this.find("#mainBar"),
+        $progressBar = $this.find("#progressBar"),
+        $playHead = $this.find("#play-head"),
+        $volumeBtn = $this.find("#volumeBtn"),
+        $muteBtn = $this.find(".volume"),
+        $unmuteBtn = $this.find(".muting"),
+        $audioSource = $this.find("#audioSource")[0];
+      //$audioSource = document.getElementById("audioSource");
 
       $audioSource.src = settings.songs[0];
 
@@ -66,7 +73,8 @@
 
       // Play & Pause Controller / create event using by bind function
       function playController() {
-        audioPlayer = document.getElementById("audioSource");
+        //audioPlayer = document.getElementById("audioSource");
+        audioPlayer = $audioSource;
         audioPlayer.addEventListener("timeupdate", progressShow);
         audioPlayer.addEventListener("timeupdate", timeValue);
         $playPauseBtn.bind("click", function (event) {
@@ -86,7 +94,7 @@
 
       // Mute & Unmute Controller / create event using by bind function
       function muteController() {
-        $volume.bind("click", function (event) {
+        $volumeBtn.bind("click", function (event) {
           if ($audioSource.muted) {
             $muteBtn.show();
             $unmuteBtn.hide();
@@ -147,11 +155,13 @@
       // Calculate the distance of progress-bar duration
       function progressShow() {
         var width = $mainBar.width();
-        var progressBar = document.getElementById("progressBar");
+        //var progressBar = document.getElementById("progressBar");
+        var progressBar = $progressBar[0];
         var size = width * (audioPlayer.currentTime / audioPlayer.duration);
         progressBar.style.width = size + "px";
         console.log(size);
-        var playhead = document.getElementById("play-head");
+        //var playhead = document.getElementById("play-head");
+        var playhead = $playHead[0];
         playhead.style.marginLeft =
           width * (audioPlayer.currentTime / audioPlayer.duration) + "px";
       }
@@ -160,8 +170,10 @@
       function headBall() {
         onPlayHead = null;
         playerId = null;
-        mainbar = document.getElementById("mainBar");
-        playHead = document.getElementById("play-head");
+        //mainbar = document.getElementById("mainBar");
+        mainbar = $mainBar[0];
+        //playHead = document.getElementById("play-head");
+        playHead = $playHead[0];
         timelineWidth = mainbar.clientWidth - playHead.clientHeight;
 
         mainbar.addEventListener("click", seek);
@@ -170,7 +182,8 @@
       }
 
       function seek(event) {
-        var player = document.getElementById("audioSource");
+        //var player = document.getElementById("audioSource");
+        var player = $audioSource;
         player.currentTime =
           player.duration * clickPercent(event, mainbar, timelineWidth);
       }
@@ -188,8 +201,8 @@
         audioPlayer.addEventListener("timeupdate", progressShow);
         audioPlayer.addEventListener("timeupdate", timeValue);
 
-        onPlayHead = $(this).attr("id");
-        playerId = $(this).find("audio").attr("class", "id");
+        onPlayHead = $this.attr("id");
+        playerId = $this.find("audio").attr("class", "id");
         var player = document.getElementById(playerId);
         window.addEventListener("mousemove", dragOpts);
         player.addEventListener("timeupdate", timeUpdate);
@@ -197,7 +210,8 @@
 
       function dragOpts(e) {
         var player = document.getElementById(onPlayHead);
-        var progressBar = document.getElementById("progressBar");
+        //var progressBar = document.getElementById("progressBar");
+        var progressBar = $progressBar[0];
         var newMargLeft = e.clientX - getPosition(mainbar);
 
         if (newMargLeft >= 0 && newMargLeft <= timelineWidth) {
