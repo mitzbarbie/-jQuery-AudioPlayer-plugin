@@ -17,23 +17,23 @@
     ></script>
   </head>
   <body>
-    <div id="audio"></div>
+    <div class="audio" style="margin: 100px"></div>
 
-    <div id="audio2"></div>
+    <div class="audio2" style="margin: 100px"></div>
 
-    <div id="audio3"></div>
+    <div class="audio3" style="margin: 100px"></div>
 
     <script>
       $(document).ready(function () {
-        $("#audio").audioPlayerUtils({
+        $(".audio").audioPlayerUtils({
           songs: ["audioEx1.mp3"],
         });
 
-        $("#audio2").audioPlayerUtils({
+        $(".audio2").audioPlayerUtils({
           songs: ["audioEx2.mp3"],
         });
 
-        $("#audio3").audioPlayerUtils({
+        $(".audio3").audioPlayerUtils({
           songs: ["audioEx3.mp3"],
         });
       });
