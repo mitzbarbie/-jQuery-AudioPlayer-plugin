@@ -142,7 +142,7 @@
           width * (audioPlayer.currentTime / audioPlayer.duration) + "px";
       }
 
-      // Progress-bar / timeline (loading) & playhead
+      // Progress-bar / timeine (loading) & playhead
       function headBall() {
         onPlayHead = null;
         playerId = null;
@@ -202,13 +202,13 @@
       function mouseUp(e) {
         if (onPlayHead != null) {
           var player = document.getElementById(playerId);
-          window.removeEventListener("mousemove", dragOpts);
           player.currentTime =
             player.duration * clickPercent(e, mainbar, timelineWidth);
-          audioPlayer.addEventListener("timeupdate", progressShow);
-          audioPlayer.addEventListener("timeupdate", timeValue);
 
           player.addEventListener("timeupdate", timeUpdate);
+          window.removeEventListener("mousemove", dragOpts);
+          audioPlayer.addEventListener("timeupdate", progressShow);
+          audioPlayer.addEventListener("timeupdate", timeValue);
         }
         onPlayHead = null;
       }
