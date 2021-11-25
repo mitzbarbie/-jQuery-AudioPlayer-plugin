@@ -136,6 +136,7 @@
         var width = $mainBar.width();
         var size = width * (audioPlayer.currentTime / audioPlayer.duration);
         progressBar.style.width = size + "px";
+        console.log(size);
 
         var playhead = $playHead[0];
         playhead.style.marginLeft =
@@ -174,13 +175,14 @@
         var player = document.getElementById(playerId);
         audioPlayer.addEventListener("timeupdate", progressShow);
         audioPlayer.addEventListener("timeupdate", timeValue);
-        onPlayHead = $(this).attr("id");
-        playerId = $(this).find("audio").attr("class", "id");
+        onPlayHead = $this.attr("id");
+        playerId = $this.find("audio").attr("class", "id");
         window.addEventListener("mousemove", dragOpts);
         player.addEventListener("timeupdate", timeUpdate);
       }
 
       function dragOpts(e) {
+        var player = document.getElementById(onPlayHead);
         var progressBar = $progressBar[0];
         var newMargLeft = e.clientX - getPosition(mainbar);
 
