@@ -1,3 +1,9 @@
+/*
+body {
+  margin: 100px;
+}
+*/
+
 .audioPlayer {
   display: flex;
   flex-direction: row;
