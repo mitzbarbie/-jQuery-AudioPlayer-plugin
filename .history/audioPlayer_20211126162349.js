@@ -158,7 +158,6 @@
 
       function seek(event) {
         var player = $audioSource;
-
         player.currentTime =
           player.duration * clickPercent(event, mainbar, timelineWidth);
       }

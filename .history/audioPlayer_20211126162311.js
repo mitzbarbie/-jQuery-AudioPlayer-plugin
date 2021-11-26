@@ -124,9 +124,9 @@
         var length = audioPlayer.duration;
         var current_time = audioPlayer.currentTime;
         var currentTime = calculateCurrentValue(current_time);
-        var totalLength = calculateTotalValue(length);
-
         $startTime.html(currentTime);
+
+        var totalLength = calculateTotalValue(length);
         $endTime.html(totalLength);
       }
 
@@ -138,7 +138,6 @@
         var playhead = $playHead[0];
         var width = $mainBar.width();
         var size = width * (current_time / length);
-
         progressBar.style.width = size + "px";
         playhead.style.marginLeft = width * (current_time / length) + "px";
       }
@@ -158,7 +157,6 @@
 
       function seek(event) {
         var player = $audioSource;
-
         player.currentTime =
           player.duration * clickPercent(event, mainbar, timelineWidth);
       }
