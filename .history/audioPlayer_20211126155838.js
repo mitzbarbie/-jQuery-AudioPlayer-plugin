@@ -149,10 +149,10 @@
         playerId = null;
         mainbar = $mainBar[0];
         progressBar = $progressBar[0];
-        timelineWidth = mainbar.clientWidth - progressBar.clientHeight;
+        timelineWidth = mainbar.clientWidth - playHead.clientHeight;
 
         mainbar.addEventListener("click", seek);
-        progressBar.addEventListener("mousedown", drag);
+        playHead.addEventListener("mousedown", drag);
         document.addEventListener("mouseup", mouseUp);
       }
 

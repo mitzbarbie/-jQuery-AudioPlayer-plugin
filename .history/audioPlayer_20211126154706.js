@@ -134,6 +134,7 @@
       function progressShow() {
         var length = audioPlayer.duration;
         var current_time = audioPlayer.currentTime;
+
         var progressBar = $progressBar[0];
         var width = $mainBar.width();
         var size = width * (current_time / length);
@@ -148,11 +149,11 @@
         onPlayHead = null;
         playerId = null;
         mainbar = $mainBar[0];
-        progressBar = $progressBar[0];
-        timelineWidth = mainbar.clientWidth - progressBar.clientHeight;
+        playHead = $playHead[0];
+        timelineWidth = mainbar.clientWidth - playHead.clientHeight;
 
         mainbar.addEventListener("click", seek);
-        progressBar.addEventListener("mousedown", drag);
+        playHead.addEventListener("mousedown", drag);
         document.addEventListener("mouseup", mouseUp);
       }
 

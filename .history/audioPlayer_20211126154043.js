@@ -132,15 +132,14 @@
 
       // Calculate the distance of progress-bar duration
       function progressShow() {
-        var length = audioPlayer.duration;
-        var current_time = audioPlayer.currentTime;
         var progressBar = $progressBar[0];
         var width = $mainBar.width();
-        var size = width * (current_time / length);
+        var size = width * (audioPlayer.currentTime / audioPlayer.duration);
         progressBar.style.width = size + "px";
 
         var playhead = $playHead[0];
-        playhead.style.marginLeft = width * (current_time / length) + "px";
+        playhead.style.marginLeft =
+          width * (audioPlayer.currentTime / audioPlayer.duration) + "px";
       }
 
       // Progress-bar / timeline (loading) & playhead
@@ -148,22 +147,22 @@
         onPlayHead = null;
         playerId = null;
         mainbar = $mainBar[0];
-        progressBar = $progressBar[0];
-        timelineWidth = mainbar.clientWidth - progressBar.clientHeight;
+        playHead = $playHead[0];
+        timelineWidth = mainbar.clientWidth - playHead.clientHeight;
 
         mainbar.addEventListener("click", seek);
-        progressBar.addEventListener("mousedown", drag);
+        playHead.addEventListener("mousedown", drag);
         document.addEventListener("mouseup", mouseUp);
       }
 
-      function seek(event) {
+      function seek(window) {
         var player = $audioSource;
         player.currentTime =
-          player.duration * clickPercent(event, mainbar, timelineWidth);
+          player.duration * clickPercent(window, mainbar, timelineWidth);
       }
 
-      function clickPercent(event, mainbar, timelineWidth) {
-        return (event.clientX - getPosition(mainbar)) / timelineWidth;
+      function clickPercent(window, mainbar, timelineWidth) {
+        return (window.scrollX - getPosition(mainbar)) / timelineWidth;
       }
 
       function getPosition(el) {

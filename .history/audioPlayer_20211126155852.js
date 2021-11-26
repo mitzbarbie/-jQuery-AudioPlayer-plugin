@@ -152,7 +152,7 @@
         timelineWidth = mainbar.clientWidth - progressBar.clientHeight;
 
         mainbar.addEventListener("click", seek);
-        progressBar.addEventListener("mousedown", drag);
+        playHead.addEventListener("mousedown", drag);
         document.addEventListener("mouseup", mouseUp);
       }
 
