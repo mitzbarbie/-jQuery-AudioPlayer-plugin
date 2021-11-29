@@ -27,7 +27,7 @@
           </div>';
 
       var $this = $(this);
-      $this.html(htmlInit);
+      //$this.append(htmlInit);
 
       var $playPauseBtn = $this.find("#playPauseBtn"),
         $playBtn = $this.find(".playing"),
