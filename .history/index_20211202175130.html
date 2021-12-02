@@ -18,12 +18,24 @@
   </head>
   <body>
     <div class="audio" style="margin: 100px" data-audio="audioEx1.mp3"></div>
-    <div class="audio" style="margin: 100px" data-audio="audioEx2.mp3"></div>
-    <div class="audio" style="margin: 100px" data-audio="audioEx3.mp3"></div>
+    <div class="audio2" style="margin: 100px" data-audio="audioEx1.mp3"></div>
+    <div class="audio3" style="margin: 100px" data-audio="audioEx1.mp3"></div>
 
     <script>
       $(document).ready(function () {
-        $(".audio1").audioPlayerUtils({});
+        console.log($("[data-audio]").map(() => console.log(this.get("audio")));
+
+        $(".audio").audioPlayerUtils({
+          songs: ["audioEx1.mp3"],
+        });
+
+        $(".audio2").audioPlayerUtils({
+          songs: ["audioEx2.mp3"],
+        });
+
+        $(".audio3").audioPlayerUtils({
+          songs: ["audioEx3.mp3"],
+        });
       });
     </script>
 

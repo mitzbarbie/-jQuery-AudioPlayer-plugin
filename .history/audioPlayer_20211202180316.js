@@ -230,7 +230,6 @@
       }
     });
   };
-
   $.map($("[data-audio]"), (i) => {
     var filename = $(i).data("audio");
     $(i).audioPlayerUtils({

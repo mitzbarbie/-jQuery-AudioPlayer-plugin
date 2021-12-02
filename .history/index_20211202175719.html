@@ -23,7 +23,20 @@
 
     <script>
       $(document).ready(function () {
-        $(".audio1").audioPlayerUtils({});
+        $.map($("[data-audio]"), (i) => {
+          var filename = $(i).data("audio");
+          $(i).audioPlayerUtils({
+            songs: [filename],
+          });
+        });
+
+        $(".audio2").audioPlayerUtils({
+          songs: ["audioEx2.mp3"],
+        });
+
+        $(".audio3").audioPlayerUtils({
+          songs: ["audioEx3.mp3"],
+        });
       });
     </script>
 
