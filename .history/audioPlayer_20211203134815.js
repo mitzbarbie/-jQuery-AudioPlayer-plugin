@@ -1,4 +1,11 @@
 (function ($, window, document, undefined) {
+  // $.map($("[data-audio]"), (i) => {
+  //   var filename = $(i).data("audio");
+  //   $(i).audioPlayerUtils({
+  //     songs: [filename],
+  //   });
+  // });
+
   $.fn.audioPlayerUtils = function (options) {
     var settings = $.extend({}, options);
 
@@ -230,12 +237,4 @@
       }
     });
   };
-
-  $.map($("[data-audio]"), (i) => {
-    var filename = $(i).data("audio");
-    console.log(i);
-    $(i).audioPlayerUtils({
-      songs: [filename],
-    });
-  });
 })(jQuery, window, document);

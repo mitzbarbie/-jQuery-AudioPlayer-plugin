@@ -229,13 +229,13 @@
         }
       }
     });
-  };
 
-  $.map($("[data-audio]"), (i) => {
-    var filename = $(i).data("audio");
-    console.log(i);
-    $(i).audioPlayerUtils({
-      songs: [filename],
+    $.map($("[data-audio]"), (i) => {
+      var filename = $(i).data("audio");
+      console.log(i);
+      $(i).audioPlayerUtils({
+        songs: [filename],
+      });
     });
-  });
+  };
 })(jQuery, window, document);
